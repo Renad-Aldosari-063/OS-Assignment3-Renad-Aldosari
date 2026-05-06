@@ -31,68 +31,68 @@
 
 Document your development process with **minimum 3 entries** showing progression:
 
-### Entry 1 - [Date, Time]
-**What I implemented**: 
+### Entry 1 - [2026-05-05, 01:00 AM]
+**What I implemented**: Started by forking the project repository to my personal account and updating the studentID variable in the main method of SchedulerSimulationSync.java with my ID (445052063). I then performed my first commit to save these initial changes.
 
-**Challenges encountered**: 
+**Challenges encountered**: None—the initial process of forking the repository and locating the ID placeholder was straightforward.
 
-**How I solved it**: 
+**How I solved it**: Followed the "IMPORTANT" hint in the code to ensure the student ID was correctly placed.
 
-**Testing approach**: 
+**Testing approach**: Ran the program for the first time to verify it starts correctly with my ID and to observe the baseline behavior of the unsynchronized threads.
 
-**Time spent**: 
-
----
-
-### Entry 2 - [Date, Time]
-**What I implemented**: 
-
-**Challenges encountered**: 
-
-**How I solved it**: 
-
-**Testing approach**: 
-
-**Time spent**: 
+**Time spent**: 20 min
 
 ---
 
-### Entry 3 - [Date, Time]
-**What I implemented**: 
+### Entry 2 - [2026-05-05, 02:30 PM]
+**What I implemented**: Started Task 1 by defining multiple ReentrantLock objects in the SharedResources class. I implemented a fine-grained locking strategy, creating separate locks for the context switch counter, the execution log, and the waiting time to ensure thread safety for each resource independently.
 
-**Challenges encountered**: 
+**Challenges encountered**: Understanding the trade-offs between using a single global lock versus multiple specific locks (lock granularity).
 
-**How I solved it**: 
+**How I solved it**: Decided to use separate locks because the shared resources are independent; this improves the simulation's performance by allowing threads to access different counters simultaneously without unnecessary waiting.
 
-**Testing approach**: 
+**Testing approach**: Performed multiple test runs of the simulation to ensure that the locks were correctly initialized as static final and that the code compiled without any synchronization-related errors.
 
-**Time spent**: 
-
----
-
-### Entry 4 - [Date, Time]
-**What I implemented**: 
-
-**Challenges encountered**: 
-
-**How I solved it**: 
-
-**Testing approach**: 
-
-**Time spent**: 
+**Time spent**: 1h
 
 ---
 
-### Entry 5 - [Date, Time]
-**What I implemented**: 
+### Entry 3 - [2026-05-05, 05:00 PM]
+**What I implemented**: Completed Task 2 by applying ReentrantLock to protect the executionLog (which uses an ArrayList). I implemented the lock() and unlock() mechanism within all critical update methods to ensure thread safety during simulation logging.
 
-**Challenges encountered**: 
+**Challenges encountered**: Initially, there was a risk of forgetting to release the lock if an exception occurred, which could lead to a deadlock where other processes are stuck waiting forever.
 
-**How I solved it**: 
+**How I solved it**: I structured the code using the try-finally pattern, placing the lock() call before the try block and ensuring unlock() is always executed in the finally block.
 
-**Testing approach**: 
+**Testing approach**: Observed the terminal output during heavy simulation runs to ensure that no ConcurrentModificationException occurred while multiple threads were writing to the log.
 
-**Time spent**: 
+**Time spent**: 1h 15 min
+
+---
+
+### Entry 4 - [2026-05-05, 07:30 PM]
+**What I implemented**: Completed Task 3 by implementing a Semaphore for CPU control (specifically a binary semaphore with 1 permit) to manage process access.
+
+**Challenges encountered**: Ensuring that the semaphore logic was correctly applied not just to the run() method, but also to the runToCompletion() method to maintain consistent synchronization.
+
+**How I solved it**: Wrapped the critical sections in both run() and runToCompletion() with acquire() and release() calls, ensuring the release happens within a finally block for reliability.
+
+**Testing approach**: Temporarily set the Semaphore to (2) permits to observe the concurrency effects and verify the logic, then reverted it back to 1 permit as required.
+
+**Time spent**: 1h
+
+---
+
+### Entry 5 - [2026-05-05, 10:00 PM]
+**What I implemented**: Completed Task 4 by finishing the ASSIGNMENT_DOCUMENTATION.md file. I also recorded the demonstration video and performed the final commits to push the complete solution to the repository.
+
+**Challenges encountered**: Explaining the concept of "lock granularity" and the benefits of using multiple locks vs. a single lock in a clear and concise manner.
+
+**How I solved it**: Wrote a detailed explanation in the documentation (Question 4) and used a small diagram to illustrate how threads interact with independent resources.
+
+**Testing approach**: Ran the final synchronized code 5 times; verified that all statistics, counters, and log entries were identical across every run.
+
+**Time spent**: 2h
 
 ---
 

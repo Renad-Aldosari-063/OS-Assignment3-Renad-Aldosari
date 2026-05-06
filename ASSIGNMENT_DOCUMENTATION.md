@@ -331,30 +331,30 @@ Imagine a small office with only one printer (the CPU) and five employees (the P
 
 ## Part 6: GitHub Repository Information
 
-**Repository URL**: 
+**Repository URL**: https://github.com/Renad-Aldosari-063/OS-Assignment3-Renad-Aldosari.git
 
-**Number of commits**: 
+**Number of commits**: 13 Commits
 
 **Commit messages**: 
-1. 
-2. 
-3. 
-4. 
+1. Complete Part 5: Reflection and Learning
+2. Complete Part 4: Testing and Verification
+3. Complete Part 3: Synchronization Analysis
+4. Implement synchronization mechanisms using ReentrantLock and Semaphore
 
 ---
 
 ## Summary
 
-**Total time spent on assignment**: 
+**Total time spent on assignment**: Approximately 12-14 hours (spread over 3 days).
 
 **Key takeaways**: 
-1. 
-2. 
-3. 
+1. Deterministic Results: Synchronization is the key to making concurrent programs predictable and consistent across multiple executions.
+2. Resource Safety: The try-finally pattern is essential to ensure that resources (Locks/Semaphores) are always released, preventing deadlocks.
+3. Concurrency Control: Semaphores are highly effective for simulating hardware constraints, like limiting execution to a single-core CPU.
 
-**Most challenging aspect**: 
+**Most challenging aspect**: The most challenging part was identifying the "Critical Sections" in the existing code where multiple threads were accessing shared counters and logs, and then choosing the right synchronization tool to fix it without causing performance bottlenecks.
 
-**What I'm most proud of**: 
+**What I'm most proud of**: I am most proud of achieving 100% consistency in the simulation results. Seeing the "Total Context Switches" and "Log Entries" produce the exact same numbers across every single run gave me a great sense of accomplishment and confirmed that my synchronization logic is flawless.
 
 ---
 

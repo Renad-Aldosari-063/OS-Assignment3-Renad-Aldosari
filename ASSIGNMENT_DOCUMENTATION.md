@@ -172,52 +172,65 @@ Concurrency: Since the counters are independent, the fine-grained approach provi
 
 ### Critical Section #1: Counter Variables
 
-**Which variables**: 
+**Which variables**: contextSwitchCount, completedProcessCount, and totalWaitingTime.
 
-**Why they need protection**: 
+**Why they need protection**: The read-modify-write operations (such as incrementing or addition) are not atomic. Without protection, multiple threads could access them simultaneously, leading to "lost updates" where some increments are not recorded.
 
-**Synchronization mechanism used**: 
+**Synchronization mechanism used**: Three separate ReentrantLock objects, which is a fine-grained locking approach.
 
 **Code snippet**:
-```java
-// Paste your implementation here
-```
+public static void incrementContextSwitch() {
+    contextSwitchLock.lock();
+    try {
+        contextSwitchCount++;
+    } finally {
+        contextSwitchLock.unlock();
+    }
+}
 
-**Justification**: 
+**Justification**: Since each counter is logically independent of the others, using separate locks maximizes concurrency by allowing different threads to update different counters at the same time without waiting.
 
 ---
 
 ### Critical Section #2: Execution Log
 
-**What resource**: 
+**What resource**: The List<String> executionLog (specifically the ArrayList used to store simulation events).
 
-**Why it needs protection**: 
+**Why it needs protection**: The ArrayList class is not thread-safe. When multiple threads attempt to call the add() method simultaneously, it can lead to data corruption, race conditions, or ConcurrentModificationException.
 
-**Synchronization mechanism used**: 
+**Synchronization mechanism used**: A ReentrantLock named logLock.
 
 **Code snippet**:
-```java
-// Paste your implementation here
-```
+public static void logExecution(String message) {
+    logLock.lock();
+    try {
+        executionLog.add(message);
+    } finally {
+        logLock.unlock();
+    }
+}
 
-**Justification**: 
+**Justification**: Exclusive access is mandatory because the internal structure of the list must be modified by only one thread at a time to preserve the log's integrity and ensure every event is recorded correctly.
 
 ---
 
 ### Critical Section #3: CPU Semaphore
 
-**Purpose of semaphore**: 
+**Purpose of semaphore**: The purpose is to simulate a single-core CPU environment where only one process is allowed to execute at any given time.
 
-**Number of permits and why**: 
+**Number of permits and why**: I used 1 permit (binary semaphore). This is because a single-core processor can only handle one thread of execution at once, and a permit of 1 enforces this mutual exclusion.
 
-**Where implemented**: 
+**Where implemented**: It is implemented within the Process.run() and Process.runToCompletion() methods to wrap the actual execution logic.
 
 **Code snippet**:
-```java
-// Paste your implementation here
-```
+SharedResources.cpuSemaphore.acquire();
+try {
+    // ... execution code ...
+} finally {
+    SharedResources.cpuSemaphore.release();
+}
 
-**Effect on program behavior**: 
+**Effect on program behavior**: It guarantees that even when multiple threads are in the "ready" state, only one can proceed to occupy the CPU at any moment, exactly like a real uniprocessor system.
 
 ---
 
